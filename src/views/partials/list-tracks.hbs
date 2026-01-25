@@ -1,24 +1,15 @@
-<table class="table is-fullwidth">
-  <thead>
-    <tr>
-      <th>Track</th>
-      <th>Artist</th>
-      <th>Duration</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each playlist.tracks}}
-      <tr>
-        <td>
-          {{title}}
-        </td>
-        <td>
-          {{artist}}
-        </td>
-        <td>
-          {{duration}}
-        </td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
+{{#each playlist.tracks}}
+  <tr>
+    <td>{{title}}</td>
+    <td>{{artist}}</td>
+    <td>{{duration}}</td>
+    <td>
+      <a
+        href="/playlist/{{../playlist._id}}/track/{{_id}}/delete"
+        class="button is-danger is-small"
+      >
+        Delete
+      </a>
+    </td>
+  </tr>
+{{/each}}

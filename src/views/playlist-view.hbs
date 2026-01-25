@@ -1,9 +1,20 @@
 {{> menu}}
 
 <section class="section">
-  <div class="title">
-    {{playlist.title}}
+  <div class="level">
+    <div class="level-left">
+      <h1 class="title">{{playlist.title}}</h1>
+    </div>
+    <div class="level-right">
+      <a
+        href="/playlist/{{playlist._id}}/delete"
+        class="button is-danger is-small"
+      >
+        Delete playlist
+      </a>
+    </div>
   </div>
+
   {{> list-tracks}}
   {{> add-track}}
 </section>
