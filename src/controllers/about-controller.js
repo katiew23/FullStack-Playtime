@@ -1,10 +1,9 @@
 export const aboutController = {
   index: {
-    handler(request, h) {
+    handler: function (request, h) {
       const viewData = {
-        title: "Weather",
+        title: "About Playtime",
       };
-      console.log("about rendering");
       return h.view("about-view", viewData);
     },
   },
