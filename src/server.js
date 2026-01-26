@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config({ path: process.cwd() + "/.env" });
 import Cookie from "@hapi/cookie";
 import { accountsController } from "./controllers/accounts-controller.js";
 import Hapi from "@hapi/hapi";
@@ -11,15 +13,21 @@ import { db } from "./models/db.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const result = dotenv.config();
+if (result.error) {
+  console.log(result.error.message);
+  process.exit(1);
+}
+
 async function init() {
   const server = Hapi.server({
     port: 3000,
     host: "localhost",
   });
-
+  
   await server.register(Vision);
   await server.register(Cookie);
-
+  
   server.views({
     engines: {
       hbs: Handlebars,
@@ -31,22 +39,24 @@ async function init() {
     layout: true,
     isCached: false,
   });
-
+  
   server.auth.strategy("session", "cookie", {
     cookie: {
-      name: "playtime",
-      password: "secretpasswordnotrevealedtoanyone",
+      name: process.env.cookie_name || "playtime",
+      password: process.env.cookie_password ||
+      "12345678901234567890123456789012",
       isSecure: false,
     },
+    
     redirectTo: "/",
     validate: accountsController.validate,
   });
-
+  
   server.auth.default("session");
-
+  
   db.init();
   server.route(webRoutes);
-
+  
   await server.start();
   console.log("Server running on %s", server.info.uri);
 }
