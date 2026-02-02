@@ -1,6 +1,7 @@
 # Full Stack Playtime App
 
-This repository contains coursework for the Full Stack Development module. It demonstrates the progressive development of a server-rendered web application using Node.js, Hapi, and Handlebars following an MVC structure.
+This repository contains coursework for the **Full Stack Development** module.  
+It demonstrates the progressive development of a server-rendered web application using **Node.js**, **Hapi**, and **Handlebars**, following a clear **MVC architecture**.
 
 ---
 
@@ -8,32 +9,71 @@ This repository contains coursework for the Full Stack Development module. It de
 
 ### Features
 - User authentication (sign up, log in, log out)
+- Session-based authentication using cookies
 - Dashboard view for logged-in users
+- Playlist creation and listing
 - About page with active navigation highlighting
-- Playlists management (add and list playlists)
-- Session-based authentication
-- Handlebars layouts and partials
+- Handlebars layouts and reusable partials
 - Clear separation of routes, controllers, models, and views
 
 ---
 
 ## Exercise 2 – Playlists and Tracks
 
-Exercise 2 extends the project by adding track functionality and expanding the MVC flow through additional controllers, views, and in-memory stores.
+This exercise extends the application to support playlists and tracks.
 
 ### Features
-- Add and list **tracks** within a playlist
-- New playlist page/view to display a single playlist and its tracks
-- Additional Handlebars partials for track UI (add + list)
-- New in-memory data store to manage tracks
-- Controllers updated to support playlist/track interactions
+- Create and list playlists per user
+- Playlist detail view
+- Add and list tracks within a playlist
+- Additional Handlebars partials for track UI
+- Controllers extended to manage playlist–track relationships
+- Dedicated data stores for playlists and tracks
 
-### Architecture Notes
-The project continues to follow MVC:
+---
+
+## Exercise 3 – Joi Validation
+
+This exercise introduces **server-side validation** using Joi to protect application logic from invalid input.
+
+### Features
+- Joi schemas defined for:
+  - User registration
+  - User login
+  - Playlist creation
+  - Track creation
+- Validation applied at controller level using Hapi `validate`
+- Graceful error handling with validation feedback rendered in views
+- Prevention of invalid or malformed data entering the stores
+
+---
+
+## Exercise 4 – Test Driven Development (TDD)
+
+This exercise introduces **automated unit testing** to validate datastore behaviour and uncover edge-case bugs.
+
+### Features
+- Unit tests written using **Mocha** and **Chai**
+- Separate test fixtures for reusable test data
+- Full test coverage for:
+  - User store (create, read, delete, edge cases)
+  - Playlist store (create, retrieve, delete, invalid IDs)
+- Tests for failure scenarios (bad IDs, missing data)
+- Bugs identified and fixed through tests (e.g. handling of `undefined` vs `null`, invalid deletes)
+- Support for both **JSON stores** and **in-memory stores**
+
+---
+
+## Architecture Notes
+
+The project follows a traditional **MVC structure**:
+
 - **Routes** define endpoints and map requests
-- **Controllers** handle request logic and choose views
-- **Models/Stores** manage in-memory data structures
-- **Views** render server-side using Handlebars templates and partials
+- **Controllers** handle request logic and select views
+- **Models / Stores** manage application data (memory and JSON stores)
+- **Views** render server-side HTML using Handlebars templates and partials
+
+Testing is used to validate datastore logic independently of the UI, ensuring robustness before features are exposed through routes and views.
 
 ---
 
@@ -41,13 +81,16 @@ The project continues to follow MVC:
 - Node.js
 - Hapi.js
 - Handlebars (Vision)
+- Joi (validation)
+- Mocha & Chai (testing)
+- LowDB (JSON persistence)
 - Bulma CSS
 - Git & GitHub
 
 ---
 
 ## How to Run
-1. Install dependencies:
-   ```bash
-   npm install
 
+Install dependencies:
+```bash
+npm install
