@@ -1,4 +1,5 @@
 import { db } from "../models/db.js";
+import { TrackSpec } from "../models/joi-schemas.js";
 
 export const playlistController = {
   index: {
@@ -15,19 +16,35 @@ export const playlistController = {
   },
   
   addTrack: {
-    handler: async function (request, h) {
+  validate: {
+    payload: TrackSpec,
+    options: { abortEarly: false },
+    failAction: async function (request, h, error) {
       const playlist = await db.playlistStore.getPlaylistById(request.params.id);
-      
-      const newTrack = {
-        title: request.payload.title,
-        artist: request.payload.artist,
-        duration: Number(request.payload.duration),
-      };
-      
-      await db.trackStore.addTrack(playlist._id, newTrack);
-      return h.redirect(`/playlist/${playlist._id}`);
+
+      return h
+        .view("playlist-view", {
+          title: "Track error",
+          playlist: playlist,
+          errors: error.details,
+        })
+        .takeover()
+        .code(400);
     },
   },
+  handler: async function (request, h) {
+    const playlist = await db.playlistStore.getPlaylistById(request.params.id);
+
+    const newTrack = {
+      title: request.payload.title,
+      artist: request.payload.artist,
+      duration: Number(request.payload.duration),
+    };
+
+    await db.trackStore.addTrack(playlist._id, newTrack);
+    return h.redirect(`/playlist/${playlist._id}`);
+  },
+},
   
   deleteTrack: {
     handler: async function (request, h) {
