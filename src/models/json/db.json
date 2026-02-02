@@ -1,0 +1,62 @@
+{
+  "users": [
+    {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret",
+      "_id": "36dd494d-3f9a-41cf-9686-9ab3b9d11bbd"
+    },
+    {
+      "firstName": "Marge",
+      "lastName": "Simpson",
+      "email": "marge@simpson.com",
+      "password": "secret",
+      "_id": "0095158b-808a-4aba-994b-efec66211102"
+    },
+    {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "secret",
+      "_id": "d9c01aca-de1e-4fae-904e-439a66b89bcc"
+    }
+  ],
+  "playlists": [
+    {
+      "userid": "8d1632cf-2765-4596-b67f-a9730383ab8c",
+      "title": "Safe",
+      "_id": "11c39a0b-c741-4a4c-b377-153c478e2cdf"
+    }
+  ],
+  "tracks": [
+    {
+      "title": "kate",
+      "artist": "kate",
+      "duration": 4,
+      "_id": "e531cfb8-86f6-4e26-bc67-e9ced32658a7",
+      "playlistid": "bafb2ff2-4316-4fd5-a242-71e1bb86df98"
+    },
+    {
+      "title": "one",
+      "artist": "two",
+      "duration": 5,
+      "_id": "ac4303f0-4ab8-4ea7-8000-7765818cf39b",
+      "playlistid": "b5699150-a04f-4962-b124-efa6b0d66cbf"
+    },
+    {
+      "title": "two",
+      "artist": "one",
+      "duration": 3,
+      "_id": "4bc9ba07-db1a-4a47-b80b-ca639bf05e89",
+      "playlistid": "b5699150-a04f-4962-b124-efa6b0d66cbf"
+    },
+    {
+      "title": "kate",
+      "artist": "one",
+      "duration": 3,
+      "_id": "06e61c94-bf87-4365-afaa-38af77d8be85",
+      "playlistid": "2ac852db-e556-4ffd-b8ec-df401a49ef8c"
+    }
+  ]
+}

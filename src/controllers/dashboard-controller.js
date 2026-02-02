@@ -1,7 +1,6 @@
 import { db } from "../models/db.js";
 import { PlaylistSpec } from "../models/joi-schemas.js";
 
-
 export const dashboardController = {
   index: {
     handler: async function (request, h) {
@@ -22,15 +21,10 @@ export const dashboardController = {
     validate: {
       payload: PlaylistSpec,
       options: { abortEarly: false },
-      failAction: async function (request, h, error) {
-        const loggedInUser = request.auth.credentials;
-        const playlists = await db.playlistStore.getUserPlaylists(loggedInUser._id);
-
+      failAction: function (request, h, error) {
         return h
           .view("dashboard-view", {
-            title: "Playlist error",
-            user: loggedInUser,
-            playlists: playlists,
+            title: "Add Playlist error",
             errors: error.details,
           })
           .takeover()
@@ -58,4 +52,3 @@ export const dashboardController = {
     },
   },
 };
-
