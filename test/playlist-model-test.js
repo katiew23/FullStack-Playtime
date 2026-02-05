@@ -1,12 +1,18 @@
 import { assert } from "chai";
 import { db } from "../src/models/db.js";
 import { playlist1, testPlaylists } from "./playlist-fixtures.js";
+import { assertSubset } from "./test-utils.js";
+import { EventEmitter } from "events";
+
+EventEmitter.defaultMaxListeners = 20;
+
+
 
 suite("Playlist Model tests", () => {
   let testUser;
 
   setup(async () => {
-    db.init();
+    db.init("mongo");
     await db.userStore.deleteAll();
     await db.playlistStore.deleteAllPlaylists();
 

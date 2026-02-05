@@ -49,7 +49,7 @@ async function init() {
 
   server.auth.default("session");
 
-  db.init();
+  db.init("mongo");
   server.route(webRoutes);
 
   await server.start();
