@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import { v4 } from "uuid";
 
 let tracks = [];
@@ -14,16 +13,6 @@ export const trackMemStore = {
     tracks.push(track);
     return track;
   },
-
-  async deleteTrack(playlistId, trackId) {
-  const playlist = await db.playlistStore.getPlaylistById(playlistId);
-  const index = playlist.tracks.findIndex((track) => track._id === trackId);
-
-  if (index !== -1) {
-    playlist.tracks.splice(index, 1);
-  }
-},
-
 
   async getTracksByPlaylistId(id) {
     return tracks.filter((track) => track.playlistid === id);

@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "firstName": "kate",
+      "lastName": "kate",
+      "email": "katiew23@gmail.com",
+      "password": "kate",
+      "_id": "ee9a27d7-42c3-468e-bfee-0b022e1f62ae"
+    }
+  ],
+  "playlists": [
+    {
+      "userid": "ee9a27d7-42c3-468e-bfee-0b022e1f62ae",
+      "title": "dadfasdfasd",
+      "_id": "cf8212b6-61aa-45cf-bfa8-d119a2ee1eea"
+    }
+  ],
+  "tracks": [
+    {
+      "title": "da",
+      "artist": "da",
+      "duration": 123,
+      "_id": "7fd64dbb-92c4-4759-94cf-0a98b102e185",
+      "playlistid": "472f4902-f86e-42c5-95e9-b06a8db284e8"
+    },
+    {
+      "title": "kate",
+      "artist": "adfasd",
+      "duration": 0,
+      "_id": "6efebf43-3db9-4f1b-b9e9-a461a53462b5",
+      "playlistid": "cf8212b6-61aa-45cf-bfa8-d119a2ee1eea"
+    }
+  ]
+}
