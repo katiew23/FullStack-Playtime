@@ -1,11 +1,25 @@
 {
   "users": [
     {
-      "firstName": "kate",
-      "lastName": "kate",
-      "email": "katiew23@gmail.com",
-      "password": "kate",
-      "_id": "ee9a27d7-42c3-468e-bfee-0b022e1f62ae"
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret",
+      "_id": "716a3eab-9498-4345-b5a5-ba1b8c21bdf5"
+    },
+    {
+      "firstName": "Marge",
+      "lastName": "Simpson",
+      "email": "marge@simpson.com",
+      "password": "secret",
+      "_id": "dcf4f943-3faf-4609-8f6c-6b9222a20d9c"
+    },
+    {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "secret",
+      "_id": "01e20ebd-5322-4f90-8d4d-c463018ebecd"
     }
   ],
   "playlists": [

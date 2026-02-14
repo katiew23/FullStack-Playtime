@@ -15,22 +15,26 @@ export const userJsonStore = {
     return user;
   },
 
-  async getUserById(id) {
+   async getUserById(id) {
     await db.read();
-    return db.data.users.find((user) => user._id === id);
-  },
+    let u = db.data.users.find((user) => user._id === id);
+    if (u === undefined) u = null;
+    return u;
+  },//retrieves a user from the database by their unique ID. It reads the database, searches for a user with the specified ID, and returns the user object if found. If no user is found with the given ID, it returns null.
 
-  async getUserByEmail(email) {
+ async getUserByEmail(email) {
     await db.read();
-    return db.data.users.find((user) => user.email === email);
-  },
+    let u = db.data.users.find((user) => user.email === email);
+    if (u === undefined) u = null;
+    return u;
+  },//adding null to standardize the return value when a user is not found, making it easier for the calling code to handle the case where a user does not exist in the database.
 
   async deleteUserById(id) {
     await db.read();
     const index = db.data.users.findIndex((user) => user._id === id);
-    db.data.users.splice(index, 1);
+    if (index !== -1) db.data.users.splice(index, 1);//only delete  if the user is found in the database, preventing unintended consequences of trying to delete a non-existent user. 
     await db.write();
-  },
+  },//deletes a user from the database by their unique ID. It reads the database, finds the index of the user with the specified ID, and if found, removes that user from the array. Finally, it writes the updated database back to storage.
 
   async deleteAll() {
     db.data.users = [];
