@@ -16,27 +16,37 @@ export const playlistJsonStore = {
     return playlist;
   },
 
-  async getPlaylistById(id) {
+   async getPlaylistById(id) {
     await db.read();
-    const list = db.data.playlists.find((playlist) => playlist._id === id);
-    list.tracks = await trackJsonStore.getTracksByPlaylistId(list._id);
+    let list = db.data.playlists.find((playlist) => playlist._id === id);
+    if (list) {
+      list.tracks = await trackJsonStore.getTracksByPlaylistId(list._id);
+    } else {
+      list = null;
+    }
     return list;
   },
+
 
   async getUserPlaylists(userid) {
     await db.read();
     return db.data.playlists.filter((playlist) => playlist.userid === userid);
   },
 
-  async deletePlaylistById(id) {
-    await db.read();
-    const index = db.data.playlists.findIndex((playlist) => playlist._id === id);
+async deletePlaylistById(id) {
+  await db.read();
+  const index = db.data.playlists.findIndex(
+    (playlist) => playlist._id === id
+  );
+  if (index !== -1) {
     db.data.playlists.splice(index, 1);
-    await db.write();
-  },
+  }
+  await db.write();
+},
 
   async deleteAllPlaylists() {
     db.data.playlists = [];
     await db.write();
   },
+  
 };

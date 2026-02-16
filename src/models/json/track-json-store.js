@@ -6,7 +6,7 @@ export const trackJsonStore = {
     await db.read();
     return db.data.tracks;
   },
-
+  
   async addTrack(playlistId, track) {
     await db.read();
     track._id = v4();
@@ -15,29 +15,35 @@ export const trackJsonStore = {
     await db.write();
     return track;
   },
-
+  
   async getTracksByPlaylistId(id) {
     await db.read();
-    return db.data.tracks.filter((track) => track.playlistid === id);
+    let foundTracks = db.data.tracks.filter((track) => track.playlistid === id);
+    if (!foundTracks) {
+      foundTracks = null;
+    }
+    return foundTracks;
   },
-
+  
   async getTrackById(id) {
     await db.read();
-    return db.data.tracks.find((track) => track._id === id);
+    let foundTrack = db.data.tracks.find((track) => track._id === id);
+    if (!foundTrack) {
+      foundTrack = null;
+    }
+    return foundTrack;
   },
-
   async deleteTrack(id) {
     await db.read();
     const index = db.data.tracks.findIndex((track) => track._id === id);
-    db.data.tracks.splice(index, 1);
+    if (index !== -1) db.data.tracks.splice(index, 1);
     await db.write();
   },
-
   async deleteAllTracks() {
     db.data.tracks = [];
     await db.write();
   },
-
+  
   async updateTrack(track, updatedTrack) {
     track.title = updatedTrack.title;
     track.artist = updatedTrack.artist;
