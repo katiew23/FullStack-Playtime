@@ -52,7 +52,7 @@ async function init() {
   });
   server.auth.default("session");
 
-  db.init("mongo");
+  db.init("json");
   server.route(webRoutes);
   await server.start();
   server.route(apiRoutes);

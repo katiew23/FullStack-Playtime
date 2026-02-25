@@ -45,6 +45,22 @@ export const playlistApi = {
     },
   },
 
+  deleteOne: {
+    auth: false,
+    handler: async function (request, h) {
+      try {
+        const playlist = await db.playlistStore.getPlaylistById(request.params.id);
+        if (!playlist) {
+          return Boom.notFound("No Playlist with this id");
+        }
+        await db.playlistStore.deletePlaylistById(request.params.id);
+        return h.response().code(204);
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
+    },
+  },
+
   deleteAll: {
     auth: false,
     handler: async function (request, h) {

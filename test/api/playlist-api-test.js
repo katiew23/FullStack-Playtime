@@ -2,10 +2,12 @@ import { assert } from "chai";
 import { playtimeService } from "./playtime-service.js";
 import { testPlaylists, mozart } from "../fixtures.js";
 import { assertSubset } from "../test-utils.js";
+import { db } from "../../src/models/db.js";
 
 suite("Playlist API tests", () => {
 
   setup(async () => {
+    db.init("json");
     await playtimeService.deleteAllPlaylists();
     for (let i = 0; i < testPlaylists.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
@@ -28,5 +30,21 @@ suite("Playlist API tests", () => {
     const returnedPlaylist = await playtimeService.getPlaylist(testPlaylists[0]._id);
     assert.equal(returnedPlaylist.title, testPlaylists[0].title);
   });
+
+  test("delete a playlist", async () => {
+  const playlist = testPlaylists[0];
+  await playtimeService.deletePlaylist(playlist._id);
+  const playlists = await playtimeService.getAllPlaylists();
+  assert.equal(playlists.length, testPlaylists.length - 1);
+});
+
+test("remove non-existent playlist", async () => {
+  try {
+    await playtimeService.deletePlaylist("non-existent-id");
+    assert.fail("should not succeed");
+  } catch (err) {
+    assert.equal(err.response.status, 404);
+  }
+});
 
 });

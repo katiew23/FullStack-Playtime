@@ -15,5 +15,7 @@ export const apiRoutes = [
   { method: "GET", path: "/api/tracks", config: trackApi.find },
   { method: "GET", path: "/api/tracks/{id}", config: trackApi.findOne },
   { method: "DELETE", path: "/api/tracks", config: trackApi.deleteAll },
+  { method: "DELETE", path: "/api/tracks/{id}", config: trackApi.deleteOne },
+  {method: "DELETE", path: "/api/playlists/{id}", config: playlistApi.deleteOne },
   
 ];

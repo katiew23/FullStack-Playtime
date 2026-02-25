@@ -44,6 +44,11 @@ export const playtimeService = {
     const res = await axios.delete(`${this.playtimeUrl}/api/playlists`);
     return res.data;
   },
+
+  async deletePlaylist(id) {
+  const res = await axios.delete(`${this.playtimeUrl}/api/playlists/${id}`);
+  return res.data;
+},
   
   async createTrack(playlistId, track) {
     const res = await axios.post(
@@ -61,6 +66,11 @@ export const playtimeService = {
   
   async getTrack(id) {
     const res = await axios.get(`${this.playtimeUrl}/api/tracks/${id}`);
+    return res.data;
+  },
+
+  async deleteTrack(id) {
+    const res = await axios.delete(`${this.playtimeUrl}/api/tracks/${id}`);
     return res.data;
   },
   

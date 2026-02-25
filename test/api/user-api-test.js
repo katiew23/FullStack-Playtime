@@ -2,9 +2,11 @@ import { assert } from "chai";
 import { playtimeService } from "./playtime-service.js";
 import { assertSubset } from "../test-utils.js";
 import { maggie, testUsers } from "../fixtures.js";
+import { db } from "../../src/models/db.js";
 
 suite("User API tests", () => {
     setup(async () => {
+        db.init("json");
         await playtimeService.deleteAllUsers();
         for (let i = 0; i < testUsers.length; i += 1) {
             // eslint-disable-next-line no-await-in-loop

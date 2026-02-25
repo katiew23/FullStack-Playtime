@@ -47,6 +47,25 @@ export const trackApi = {
         },
     },
     
+    deleteOne: {
+        auth: false,
+        async handler(request, h) {
+            try {
+                const track = await db.trackStore.getTrackById(request.params.id);
+                if (!track) {
+                    return Boom.notFound("No track with this id");
+                }
+                
+                await db.trackStore.deleteTrack(request.params.id);
+                return h.response().code(204);
+                
+            } catch (err) {
+                return Boom.serverUnavailable("Database Error");
+            }
+        },
+    },
+    
+    
     deleteAll: {
         auth: false,
         handler: async function (request, h) {

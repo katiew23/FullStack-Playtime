@@ -1,0 +1,10 @@
+{
+  "watch": ["src"],
+  "ignore": [
+    "src/models/*.json",
+    "data/*.json",
+    "test/**",
+    "node_modules/**"
+  ],
+  "ext": "js"
+}
