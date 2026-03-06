@@ -10,6 +10,7 @@ export const webRoutes = [
   { method: "GET", path: "/logout", config: accountsController.logout },
   { method: "POST", path: "/register", config: accountsController.signup },
   { method: "POST", path: "/authenticate", config: accountsController.login },
+  { method: "GET", path: "/{param*}", handler: { directory: { path: "./public" } }, options: { auth: false } },
 
   { method: "GET", path: "/about", config: aboutController.index },
 
@@ -20,5 +21,5 @@ export const webRoutes = [
   { method: "GET", path: "/playlist/{id}", config: playlistController.index },
   { method: "POST", path: "/playlist/{id}/addtrack", config: playlistController.addTrack },
   { method: "GET", path: "/playlist/{id}/deletetrack/{trackid}", config: playlistController.deleteTrack },
-
+   
 ];

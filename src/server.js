@@ -1,11 +1,13 @@
 import Vision from "@hapi/vision";
-import Hapi from "@hapi/hapi";
+import Hapi, { server } from "@hapi/hapi";
 import Cookie from "@hapi/cookie";
 import dotenv from "dotenv";
 import path from "path";
 import Joi from "joi";
 import { fileURLToPath } from "url";
 import Handlebars from "handlebars";
+import HapiSwagger from "hapi-swagger";
+import Inert from "@hapi/inert";
 import { webRoutes } from "./web-routes.js";
 import { db } from "./models/db.js";
 import { accountsController } from "./controllers/accounts-controller.js";
@@ -18,7 +20,14 @@ const result = dotenv.config();
 if (result.error) {
   console.log(result.error.message);
   process.exit(1);
-}
+};
+
+const swaggerOptions = {
+  info: {
+    title: "Playtime API",
+    version: "0.1",
+  },
+};
 
 async function init() {
   const server = Hapi.server({
@@ -27,6 +36,13 @@ async function init() {
 
   await server.register(Vision);
   await server.register(Cookie);
+  await server.register(Inert);
+
+  await server.register({
+    plugin: HapiSwagger,
+    options: swaggerOptions,
+  });
+
   server.validator(Joi);
 
   server.views({
@@ -54,8 +70,8 @@ async function init() {
 
   db.init("json");
   server.route(webRoutes);
-  await server.start();
   server.route(apiRoutes);
+  await server.start();
   console.log("Server running on %s", server.info.uri);
 }
 

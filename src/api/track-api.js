@@ -1,5 +1,8 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
+import { TrackArray, TrackSpec, IdSpec } from "../models/joi-schemas.js";
+import { validationError } from "../logger.js";
+
 
 export const trackApi = {
     find: {
@@ -12,6 +15,10 @@ export const trackApi = {
                 return Boom.serverUnavailable("Database Error");
             }
         },
+        tags: ["api"],
+        description: "Get all tracks",
+        notes: "Returns details of all tracks",
+        response: {schema: TrackArray},
     },
     
     findOne: {
@@ -27,6 +34,11 @@ export const trackApi = {
                 return Boom.serverUnavailable("No track with this id");
             }
         },
+        tags: ["api"],
+        description: "Get a track",
+        notes: "Returns details of a track",  
+        response: {schema: TrackSpec},  
+        validate: { params: { id: IdSpec } },
     },
     
     create: {
@@ -45,6 +57,11 @@ export const trackApi = {
                 return Boom.serverUnavailable("Database Error");
             }
         },
+        tags: ["api"],
+        description: "Create a track",
+        notes: "Returns the newly created track",
+        validate: { payload: TrackSpec },
+        response: {schema: TrackSpec},
     },
     
     deleteOne: {
@@ -63,6 +80,12 @@ export const trackApi = {
                 return Boom.serverUnavailable("Database Error");
             }
         },
+        tags: ["api"],
+        description: "Delete a track",
+        notes: "Deletes a track from the database",
+        response: {schema: TrackSpec},
+        validate: { params: { id: IdSpec } }
+        
     },
     
     
@@ -76,5 +99,9 @@ export const trackApi = {
                 return Boom.serverUnavailable("Database Error");
             }
         },
+        tags: ["api"],
+        description: "Delete all tracks",
+            notes: "Deletes all tracks from the database",
+            response: {schema: TrackArray},
     },
 };
