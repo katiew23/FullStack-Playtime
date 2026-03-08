@@ -1,104 +1,99 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
-import { TrackArray, TrackSpec, IdSpec } from "../models/joi-schemas.js";
+import { IdSpec, TrackSpec, TrackSpecPlus, TrackArraySpec } from "../models/joi-schemas.js";
 import { validationError } from "../logger.js";
 
-
 export const trackApi = {
-    find: {
-        auth: false,
-        handler: async function (request, h) {
-            try {
-                const tracks = await db.trackStore.getAllTracks();
-                return tracks;
-            } catch (err) {
-                return Boom.serverUnavailable("Database Error");
-            }
-        },
-        tags: ["api"],
-        description: "Get all tracks",
-        notes: "Returns details of all tracks",
-        
+  find: {
+    auth: false,
+    handler: async function (request, h) {
+      try {
+        const tracks = await db.trackStore.getAllTracks();
+        return tracks;
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
     },
-    
-    findOne: {
-        auth: false,
-        handler: async function (request, h) {
-            try {
-                const track = await db.trackStore.getTrackById(request.params.id);
-                if (!track) {
-                    return Boom.notFound("No track with this id");
-                }
-                return track;
-            } catch (err) {
-                return Boom.serverUnavailable("No track with this id");
-            }
-        },
-        tags: ["api"],
-        description: "Get a track",
-        notes: "Returns details of a track",  
-        
+    tags: ["api"],
+    response: { schema: TrackArraySpec, failAction: validationError },
+    description: "Get all trackApi",
+    notes: "Returns all trackApi",
+  },
+  
+  findOne: {
+    auth: false,
+    async handler(request) {
+      try {
+        const track = await db.trackStore.getTrackById(request.params.id);
+        if (!track) {
+          return Boom.notFound("No track with this id");
+        }
+        return track;
+      } catch (err) {
+        return Boom.serverUnavailable("No track with this id");
+      }
     },
-    
-    create: {
-        auth: false,
-        handler: async function (request, h) {
-            try {
-                const track = await db.trackStore.addTrack(
-                    request.params.id,
-                    request.payload
-                );
-                if (track) {
-                    return h.response(track).code(201);
-                }
-                return Boom.badImplementation("error creating Track");
-            } catch (err) {
-                return Boom.serverUnavailable("Database Error");
-            }
-        },
-        tags: ["api"],
-        description: "Create a track",
-        notes: "Returns the newly created track",
-        validate: { params: { id: IdSpec } }
+    tags: ["api"],
+    description: "Find a Track",
+    notes: "Returns a track",
+    validate: { params: { id: IdSpec }, failAction: validationError },
+    response: { schema: TrackSpecPlus, failAction: validationError },
+  },
+  
+  create: {
+    auth: false,
+    handler: async function (request, h) {
+      try {
+        const track = await db.trackStore.addTrack(request.params.id, request.payload);
+        if (track) {
+          return h.response(track).code(201);
+        }
+        return Boom.badImplementation("error creating track");
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
     },
-    
-    deleteOne: {
-        auth: false,
-        async handler(request, h) {
-            try {
-                const track = await db.trackStore.getTrackById(request.params.id);
-                if (!track) {
-                    return Boom.notFound("No track with this id");
-                }
-                
-                await db.trackStore.deleteTrack(request.params.id);
-                return h.response().code(204);
-                
-            } catch (err) {
-                return Boom.serverUnavailable("Database Error");
-            }
-        },
-        tags: ["api"],
-        description: "Delete a track",
-        notes: "Deletes a track from the database",
-        validate: { params: { id: IdSpec } } 
-        
+    tags: ["api"],
+    description: "Create a track",
+    notes: "Returns the newly created track",
+    validate: {
+      params: { id: IdSpec },
+      payload: TrackSpec,
+      failAction: validationError
     },
-    
-    
-    deleteAll: {
-        auth: false,
-        handler: async function (request, h) {
-            try {
-                await db.trackStore.deleteAllTracks();
-                return h.response().code(204);
-            } catch (err) {
-                return Boom.serverUnavailable("Database Error");
-            }
-        },
-        tags: ["api"],
-        description: "Delete all tracks",
-            notes: "Deletes all tracks from the database",
-           
+    response: { schema: TrackSpecPlus, failAction: validationError },
+  },
+  
+  deleteAll: {
+    auth: false,
+    handler: async function (request, h) {
+      try {
+        await db.trackStore.deleteAllTracks();
+        return h.response().code(204);
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
     },
+    tags: ["api"],
+    description: "Delete all trackApi",
+  },
+  
+  deleteOne: {
+    auth: false,
+    handler: async function (request, h) {
+      try {
+        const track = await db.trackStore.getTrackById(request.params.id);
+        if (!track) {
+          return Boom.notFound("No Track with this id");
+        }
+        await db.trackStore.deleteTrack(track._id);
+        return h.response().code(204);
+      } catch (err) {
+        return Boom.serverUnavailable("No Track with this id");
+      }
+    },
+    tags: ["api"],
+    description: "Delete a track",
+    validate: { params: { id: IdSpec }, failAction: validationError },
+  },
 };

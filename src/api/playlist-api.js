@@ -1,10 +1,9 @@
 import Boom from "@hapi/boom";
+import { IdSpec, PlaylistArraySpec, PlaylistSpec, PlaylistSpecPlus } from "../models/joi-schemas.js";
 import { db } from "../models/db.js";
-import { PlaylistArray, PlaylistSpec, IdSpec } from "../models/joi-schemas.js";
 import { validationError } from "../logger.js";
 
 export const playlistApi = {
-
   find: {
     auth: false,
     handler: async function (request, h) {
@@ -16,14 +15,14 @@ export const playlistApi = {
       }
     },
     tags: ["api"],
+    response: { schema: PlaylistArraySpec, failAction: validationError },
     description: "Get all playlists",
-    notes: "Returns details of all playlists",
-        
+    notes: "Returns all playlists",
   },
 
   findOne: {
     auth: false,
-    handler: async function (request, h) {
+    async handler(request) {
       try {
         const playlist = await db.playlistStore.getPlaylistById(request.params.id);
         if (!playlist) {
@@ -35,18 +34,20 @@ export const playlistApi = {
       }
     },
     tags: ["api"],
-    description: "Get a playlist",
-    notes: "Returns details of a playlist",
-    
+    description: "Find a Playlist",
+    notes: "Returns a playlist",
+    validate: { params: { id: IdSpec }, failAction: validationError },
+    response: { schema: PlaylistSpecPlus, failAction: validationError },
   },
 
   create: {
     auth: false,
     handler: async function (request, h) {
       try {
-        const playlist = await db.playlistStore.addPlaylist(request.payload);
-        if (playlist) {
-          return h.response(playlist).code(201);
+        const playlist = request.payload;
+        const newPlaylist = await db.playlistStore.addPlaylist(playlist);
+        if (newPlaylist) {
+          return h.response(newPlaylist).code(201);
         }
         return Boom.badImplementation("error creating playlist");
       } catch (err) {
@@ -54,9 +55,10 @@ export const playlistApi = {
       }
     },
     tags: ["api"],
-    description: "Create a playlist",
+    description: "Create a Playlist",
     notes: "Returns the newly created playlist",
-    
+    validate: { payload: PlaylistSpec, failAction: validationError },
+    response: { schema: PlaylistSpecPlus, failAction: validationError },
   },
 
   deleteOne: {
@@ -67,16 +69,15 @@ export const playlistApi = {
         if (!playlist) {
           return Boom.notFound("No Playlist with this id");
         }
-        await db.playlistStore.deletePlaylistById(request.params.id);
+        await db.playlistStore.deletePlaylistById(playlist._id);
         return h.response().code(204);
       } catch (err) {
-        return Boom.serverUnavailable("Database Error");
+        return Boom.serverUnavailable("No Playlist with this id");
       }
     },
     tags: ["api"],
     description: "Delete a playlist",
-    notes: "Deletes a playlist from the database",
-    
+    validate: { params: { id: IdSpec }, failAction: validationError },
   },
 
   deleteAll: {
@@ -90,9 +91,6 @@ export const playlistApi = {
       }
     },
     tags: ["api"],
-    description: "Delete all playlists",
-    notes: "Deletes all playlists from the database",
-    
+    description: "Delete all PlaylistApi",
   },
-
 };

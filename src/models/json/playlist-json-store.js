@@ -9,12 +9,12 @@ export const playlistJsonStore = {
   },
 
   async addPlaylist(playlist) {
-    await db.read();
-    playlist._id = v4();
-    db.data.playlists.push(playlist);
-    await db.write();
-    return playlist;
-  },
+  await db.read();
+  playlist._id = v4();
+  db.data.playlists.push(playlist);
+  await db.write();
+  return playlist;
+},
 
    async getPlaylistById(id) {
     await db.read();

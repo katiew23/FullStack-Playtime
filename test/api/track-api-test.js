@@ -5,23 +5,23 @@ import { assertSubset } from "../test-utils.js";
 import { db } from "../../src/models/db.js";
 
 suite("Track API tests", () => {
-  
+
+  const tracks = new Array(testTracks.length);
   let playlist;
-  
+
   setup(async () => {
     db.init("json");
     await playtimeService.deleteAllTracks();
     await playtimeService.deleteAllPlaylists();
-    
+
     playlist = await playtimeService.createPlaylist({ title: "Test Playlist" });
-    
+
     for (let i = 0; i < testTracks.length; i += 1) {
-      testTracks[i] = await playtimeService.createTrack(
-        playlist._id,
-        testTracks[i]
-      );
+      tracks[i] = await playtimeService.createTrack(playlist._id, testTracks[i]);
     }
   });
+
+
   
   test("create a track", async () => {
     const newTrack = await playtimeService.createTrack(
@@ -33,12 +33,12 @@ suite("Track API tests", () => {
   });
   
   test("get all tracks", async () => {
-    const tracks = await playtimeService.getAllTracks();
-    assert.equal(tracks.length, testTracks.length);
+    const allTracks = await playtimeService.getAllTracks();
+    assert.equal(allTracks.length, testTracks.length);
   });
   
   test("get one track - success", async () => {
-    const returnedTrack = await playtimeService.getTrack(testTracks[0]._id);
+    const returnedTrack = await playtimeService.getTrack(tracks[0]._id);
     assert.equal(returnedTrack.title, testTracks[0].title);
     assert.equal(returnedTrack.artist, testTracks[0].artist);
   });
@@ -55,7 +55,7 @@ suite("Track API tests", () => {
   test("get one track - deleted track", async () => {
     await playtimeService.deleteAllTracks();
     try {
-      await playtimeService.getTrack(testTracks[0]._id);
+      await playtimeService.getTrack(tracks[0]._id);
       assert.fail("Should not return a response");
     } catch (error) {
       assert.equal(error.response.data.statusCode, 404);
@@ -63,7 +63,7 @@ suite("Track API tests", () => {
   });
   
   test("delete a track", async () => {
-    const track = testTracks[0];
+    const track = tracks[0];
     await playtimeService.deleteTrack(track._id);
     try{
       await playtimeService.getTrack(track._id);
@@ -81,5 +81,5 @@ suite("Track API tests", () => {
       assert.equal(err.response.status, 404);
     }   
   });
-  
 });
+

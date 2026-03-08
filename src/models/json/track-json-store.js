@@ -40,6 +40,7 @@ export const trackJsonStore = {
     await db.write();
   },
   async deleteAllTracks() {
+    await db.read();
     db.data.tracks = [];
     await db.write();
   },

@@ -1,52 +1,54 @@
 import Joi from "joi";
 
-export const IdSpec = Joi.alternatives()
-  .try(Joi.string(), Joi.object())
-  .description("a valid ID");
+export const IdSpec = Joi.alternatives().try(Joi.string(), Joi.object()).description("a valid ID");
 
-export const UserCredentialsSpec = {
-  email: Joi.string().email().required(),
-  password: Joi.string().required()
-};
-
-export const UserSpec = Joi.object()
+export const UserCredentialsSpec = Joi.object()
   .keys({
-    firstName: Joi.string().example("Homer").required(),
-    lastName: Joi.string().example("Simpson").required(),
     email: Joi.string().email().example("homer@simpson.com").required(),
     password: Joi.string().example("secret").required(),
-    _id: IdSpec,
-    __v: Joi.number()
   })
-  .label("UserDetails");
+  .label("UserCredentials");
 
-export const UserArray = Joi.array().items(UserSpec).label("UserArray");
+export const UserSpec = UserCredentialsSpec.keys({
+  firstName: Joi.string().example("Homer").required(),
+  lastName: Joi.string().example("Simpson").required(),
+}).label("UserDetails");
 
+export const UserSpecPlus = UserSpec.keys({
+  _id: IdSpec,
+  __v: Joi.number().optional(),
+}).label("UserDetailsPlus");
 
-export const PlaylistSpec = Joi.object()
-  .keys({
-    title: Joi.string().example("My Playlist").required(),
-    userid: IdSpec,
-    tracks: Joi.array().items(IdSpec),
-    _id: IdSpec,
-    __v: Joi.number()
-  })
-  .label("PlaylistDetails");
-
-export const PlaylistArray = Joi.array().items(PlaylistSpec).label("PlaylistArray");
+export const UserArray = Joi.array().items(UserSpecPlus).label("UserArray");
 
 
 export const TrackSpec = Joi.object()
   .keys({
-    title: Joi.string().example("Track Title").required(),
-    artist: Joi.string().example("Track Artist").required(),
-    album: Joi.string().example("Track Album").required(),
-    duration: Joi.number().example(240).required(),
-    playlistid: IdSpec,
-    _id: IdSpec,
-    __v: Joi.number()
+    title: Joi.string().required().example("Piano Sonata No. 7"),
+    artist: Joi.string().required().example("Beethoven"),
+    duration: Joi.number().allow("").optional().example(12),
   })
-  .label("TrackDetails");
+  .label("Track");
 
-export const TrackArray = Joi.array().items(TrackSpec).label("TrackArray");
+export const TrackSpecPlus = TrackSpec.keys({
+  _id: IdSpec,
+  playlistid: IdSpec,
+  __v: Joi.number().optional(),
+}).label("TrackPlus");
+
+export const TrackArraySpec = Joi.array().items(TrackSpecPlus).label("TrackArray");
+
+
+export const PlaylistSpec = Joi.object().keys({
+  title: Joi.string().required().example("Beethoven Sonatas"),
+  userid: IdSpec.optional(),
+  tracks: TrackArraySpec.optional(),
+}).label("Playlist");
+
+export const PlaylistSpecPlus = PlaylistSpec.keys({
+  _id: IdSpec,
+  __v: Joi.number().optional(),
+}).label("PlaylistPlus");
+
+export const PlaylistArraySpec = Joi.array().items(PlaylistSpecPlus).label("PlaylistArray");
 
