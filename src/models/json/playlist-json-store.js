@@ -45,6 +45,7 @@ async deletePlaylistById(id) {
 },
 
   async deleteAllPlaylists() {
+    await db.read();
     db.data.playlists = [];
     await db.write();
   },

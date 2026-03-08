@@ -18,7 +18,7 @@ export const trackApi = {
         tags: ["api"],
         description: "Get all tracks",
         notes: "Returns details of all tracks",
-        response: {schema: TrackArray},
+        
     },
     
     findOne: {
@@ -37,8 +37,7 @@ export const trackApi = {
         tags: ["api"],
         description: "Get a track",
         notes: "Returns details of a track",  
-        response: {schema: TrackSpec},  
-        validate: { params: { id: IdSpec } },
+        
     },
     
     create: {
@@ -60,8 +59,7 @@ export const trackApi = {
         tags: ["api"],
         description: "Create a track",
         notes: "Returns the newly created track",
-        validate: { payload: TrackSpec },
-        response: {schema: TrackSpec},
+        validate: { params: { id: IdSpec } }
     },
     
     deleteOne: {
@@ -83,8 +81,7 @@ export const trackApi = {
         tags: ["api"],
         description: "Delete a track",
         notes: "Deletes a track from the database",
-        response: {schema: TrackSpec},
-        validate: { params: { id: IdSpec } }
+        validate: { params: { id: IdSpec } } 
         
     },
     
@@ -102,6 +99,6 @@ export const trackApi = {
         tags: ["api"],
         description: "Delete all tracks",
             notes: "Deletes all tracks from the database",
-            response: {schema: TrackArray},
+           
     },
 };

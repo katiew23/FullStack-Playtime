@@ -18,7 +18,7 @@ export const playlistApi = {
     tags: ["api"],
     description: "Get all playlists",
     notes: "Returns details of all playlists",
-    response: { schema: PlaylistArray, failAction: validationError },    
+        
   },
 
   findOne: {
@@ -37,8 +37,7 @@ export const playlistApi = {
     tags: ["api"],
     description: "Get a playlist",
     notes: "Returns details of a playlist",
-    response: {schema: PlaylistSpec},
-    validate: { params: { id: IdSpec } },
+    
   },
 
   create: {
@@ -57,8 +56,7 @@ export const playlistApi = {
     tags: ["api"],
     description: "Create a playlist",
     notes: "Returns the newly created playlist",
-    validate: { payload: PlaylistSpec, failAction: validationError },
-    response: {schema: PlaylistSpec, failAction: validationError},
+    
   },
 
   deleteOne: {
@@ -78,8 +76,7 @@ export const playlistApi = {
     tags: ["api"],
     description: "Delete a playlist",
     notes: "Deletes a playlist from the database",
-    response: {schema: PlaylistSpec},
-    validate: { params: { id: IdSpec } }
+    
   },
 
   deleteAll: {
@@ -95,8 +92,7 @@ export const playlistApi = {
     tags: ["api"],
     description: "Delete all playlists",
     notes: "Deletes all playlists from the database",
-    response: {schema: PlaylistArray},
-    validate: { failAction: validationError },
+    
   },
 
 };
