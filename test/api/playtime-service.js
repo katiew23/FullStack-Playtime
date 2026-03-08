@@ -5,6 +5,17 @@ import { serviceUrl } from "../fixtures.js";
 export const playtimeService = {
   playtimeUrl: serviceUrl,
   
+  async authenticate(user) {
+    const response = await axios.post(`${this.playtimeUrl}/api/users/authenticate`, user);
+    axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.token;
+    return response.data;
+  },
+  
+  async clearAuth() {
+    axios.defaults.headers.common["Authorization"] = "";
+  },
+  
+  
   async createUser(user) {
     const res = await axios.post(`${this.playtimeUrl}/api/users`, user);
     return res.data;
@@ -44,11 +55,11 @@ export const playtimeService = {
     const res = await axios.delete(`${this.playtimeUrl}/api/playlists`);
     return res.data;
   },
-
+  
   async deletePlaylist(id) {
-  const res = await axios.delete(`${this.playtimeUrl}/api/playlists/${id}`);
-  return res.data;
-},
+    const res = await axios.delete(`${this.playtimeUrl}/api/playlists/${id}`);
+    return res.data;
+  },
   
   async createTrack(playlistId, track) {
     const res = await axios.post(
@@ -68,7 +79,7 @@ export const playtimeService = {
     const res = await axios.get(`${this.playtimeUrl}/api/tracks/${id}`);
     return res.data;
   },
-
+  
   async deleteTrack(id) {
     const res = await axios.delete(`${this.playtimeUrl}/api/tracks/${id}`);
     return res.data;

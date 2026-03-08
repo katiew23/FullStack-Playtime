@@ -5,7 +5,7 @@ import { validationError } from "../logger.js";
 
 export const trackApi = {
   find: {
-    auth: false,
+    auth: { strategy: "jwt" },
     handler: async function (request, h) {
       try {
         const tracks = await db.trackStore.getAllTracks();
@@ -21,7 +21,7 @@ export const trackApi = {
   },
   
   findOne: {
-    auth: false,
+    auth: { strategy: "jwt" },
     async handler(request) {
       try {
         const track = await db.trackStore.getTrackById(request.params.id);
@@ -41,7 +41,7 @@ export const trackApi = {
   },
   
   create: {
-    auth: false,
+    auth: { strategy: "jwt" },
     handler: async function (request, h) {
       try {
         const track = await db.trackStore.addTrack(request.params.id, request.payload);
@@ -65,7 +65,7 @@ export const trackApi = {
   },
   
   deleteAll: {
-    auth: false,
+    auth: { strategy: "jwt" },
     handler: async function (request, h) {
       try {
         await db.trackStore.deleteAllTracks();
@@ -79,7 +79,7 @@ export const trackApi = {
   },
   
   deleteOne: {
-    auth: false,
+    auth: { strategy: "jwt" },
     handler: async function (request, h) {
       try {
         const track = await db.trackStore.getTrackById(request.params.id);
