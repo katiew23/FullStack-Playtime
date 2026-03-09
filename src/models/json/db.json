@@ -20,6 +20,27 @@
       "email": "bart@simpson.com",
       "password": "secret",
       "_id": "65362194-892e-4d51-9e2a-6b9eb369342f"
+    },
+    {
+      "email": "homer@simpson.com",
+      "password": "secret",
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "_id": "c03d2c6a-93b1-4b72-9208-00167c5edd44"
+    },
+    {
+      "email": "homer@simpson.com",
+      "password": "secret",
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "_id": "5958a334-5119-4d95-b3e8-db235e1d9b1d"
+    },
+    {
+      "email": "homer@simpson.com",
+      "password": "secret",
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "_id": "05569a90-80a2-4cda-ac98-142a0160129d"
     }
   ],
   "playlists": [
